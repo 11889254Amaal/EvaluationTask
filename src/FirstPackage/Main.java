@@ -97,9 +97,10 @@ public class Main {
 	      	//for-each loop to print the string  
 	      	for(String str: string)   
 	      	{  
-	      	
-	      	System.out.println(str);  
-	      	}  
+	      	if(str.contains(SearchForWord2)) {
+	      	System.out.println("DUPLICATE value");
+	      	}
+	      	}
 	      	  
 	      	  File f1=new File("C:\\Users\\Amaal\\Downloads\\AmaalAljasria\\EvaluationProject\\src\\eva.txt"); //Creation of File Descriptor for input file
 	          String[] words=null;  
