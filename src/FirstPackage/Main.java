@@ -14,7 +14,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
-
+import java.io.File;
+import java.io.IOException;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.junit.runner.manipulation.Ordering.Context;
 
 
 
@@ -31,8 +36,12 @@ public class Main {
 		System.out.println("3. Exit the system ");
 	}
 //main -====
-	
-	
+	static void choicesFunction1() {
+	System.out.println("Welcome...Please Select one of the following options:");
+	System.out.println("1-txt format");
+	System.out.println("2-pdf format");
+	System.out.println("3-Exit from Sub menu");
+	}
 	public static void main(String[] args) throws Throwable {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
@@ -44,8 +53,11 @@ public class Main {
 			int numberOfOption = sc.nextInt();
 			switch (numberOfOption) {
 			case 1:
-				// this case for consume Api
-				// ConsumeApi MyconsumeApi=new ConsumeApi();
+				choicesFunction1() ;
+				do {
+				int numberOfOption1 = sc.nextInt();
+				switch (numberOfOption1) {
+				case 1:
 				URL url = new URL("https://api.artic.edu/api/v1/artworks/129884");
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestMethod("GET");
@@ -71,10 +83,78 @@ public class Main {
 					System.out.println("the file is create ........");
 
 				}
-
-				choicesFunction();
-
+				choicesFunction1();
 				break;
+				case 2:
+					URL url1 = new URL("https://api.artic.edu/api/v1/artworks/129884");
+					HttpURLConnection conn1 = (HttpURLConnection) url1.openConnection();
+					conn1.setRequestMethod("GET");
+					conn1.connect();
+					StringBuilder informationString1 = new StringBuilder();
+					int responseCode1 = conn1.getResponseCode();
+					if (responseCode1 != 200) {
+						throw new RuntimeException("HttpresponseCode");
+
+					}
+
+					else {
+						Scanner scanner = new Scanner(url1.openStream());
+						while (scanner.hasNext()) {
+							informationString1.append(scanner.nextLine());
+						}
+						scanner.close();
+						//System.out.println(informationString1.toString());
+					}
+					
+					try {
+						
+						
+						
+						////////////////////////////////////////
+						// Creating file instance
+						File file = new File("C:\\Users\\Amaal\\Downloads\\AmaalAljasria\\EvaluationProject\\src\\AmaalAljasria.pdf");
+						// Loading pdf file
+						PDDocument document = PDDocument.load(file);
+						
+						PDFTextStripper pdfStripper = new PDFTextStripper();
+						// Fetching PDF document
+					   System.out.println("plz enter word you want to search");
+					   String word = sc.next();
+					   PDFTextStripper findPhrase = new PDFTextStripper();
+				        String text = findPhrase.getText(document);
+				        String PDF_content = text;
+				        String result = PDF_content.contains(word) ? "Yes" : "No";
+				         System.out.println(result);
+
+						//String text = pdfStripper.getText(document);
+						
+						
+						//System.out.println(text);
+						// Closing the document
+						
+						
+						document.close();
+						
+						
+						
+					}catch(Exception e) {
+						System.out.println(e);
+					}
+					
+					choicesFunction1();
+					break;
+					
+					
+				case 3:
+					
+					choicesFunction();
+					break;
+					
+				}
+				
+				
+			
+				}while(true);
 			case 2:
 				// this case to search from file
 				System.out.println("========================= ( Search From json file)===================");
